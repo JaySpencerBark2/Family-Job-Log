@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  Bark_Family_Backend:
+    image: job-portal-backend
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+      MONGODB_URL: mongodb://root:root@mongo:27017
+    ports:
+      - 3000:3000
+
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - 27017:27017
+    volumes:
+      - records:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+  
+volumes:
+  records:
